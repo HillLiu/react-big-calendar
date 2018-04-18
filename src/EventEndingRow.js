@@ -88,13 +88,12 @@ class EventEndingRow extends React.Component {
   renderShowMore(segments, slot) {
     let messages = message(this.props.messages)
     let count = eventsInSlot(segments, slot)
-
     return count
       ? <a
           key={'sm_' + slot}
-          href="#"
+          href="?"
           className={'rbc-show-more'}
-          onClick={e => this.showMore(slot, e)}
+          onClick={this.showMore.bind(this, slot)}
         >
           {messages.showMore(count)}
         </a>
@@ -102,8 +101,8 @@ class EventEndingRow extends React.Component {
   }
 
   showMore(slot, e) {
-    e.preventDefault()
-    this.props.onShowMore(slot)
+    e.preventDefault();
+    this.props.onShowMore(slot);
   }
 }
 

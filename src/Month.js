@@ -78,6 +78,20 @@ let propTypes = {
   ]),
 }
 
+const arrayEqual = (arr1, arr2) =>
+{
+  const length = arr1.length;
+  if (length !== arr2.length) {
+    return false
+  }
+  for (var i = 0; i < length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 class MonthView extends React.Component {
   static displayName = 'MonthView'
   static propTypes = propTypes
@@ -97,9 +111,9 @@ class MonthView extends React.Component {
     }
   }
 
-  componentWillReceiveProps({ date }) {
+  componentWillReceiveProps({ date, events }) {
     this.setState({
-      needLimitMeasure: !dates.eq(date, this.props.date),
+      needLimitMeasure: !dates.eq(date, this.props.date) || !arrayEqual(events, this.props.events),
     })
   }
 
@@ -289,7 +303,7 @@ class MonthView extends React.Component {
   measureRowLimit() {
     this.setState({
       needLimitMeasure: false,
-      rowLimit: this.refs.slotRow.getRowLimit(),
+      rowLimit: this.refs.slotRow && this.refs.slotRow.getRowLimit(),
     })
   }
 
@@ -328,7 +342,7 @@ class MonthView extends React.Component {
         overlay: { date, events, position },
       })
     } else {
-      notify(onDrillDown, [date, getDrilldownView(date) || views.DAY])
+      //  notify(onDrillDown, [date, getDrilldownView(date) || views.DAY])
     }
 
     notify(onShowMore, [events, date, slot])

@@ -25,6 +25,7 @@ import defaults from 'lodash/defaults';
 import transform from 'lodash/transform';
 import mapValues from 'lodash/mapValues';
 
+
 function viewNames(_views) {
   return !Array.isArray(_views) ? Object.keys(_views) : _views
 }
@@ -116,6 +117,8 @@ class Calendar extends React.Component {
      * ```
      */
     onSelectSlot: PropTypes.func,
+
+    onShowMore: PropTypes.func,
 
     /**
      * Callback fired when a calendar event is selected.
@@ -682,10 +685,15 @@ class Calendar extends React.Component {
           onSelectEvent={this.handleSelectEvent}
           onDoubleClickEvent={this.handleDoubleClickEvent}
           onSelectSlot={this.handleSelectSlot}
-          onShowMore={this._showMore}
+          onShowMore={this.handleShowMore}
         />
       </div>
     );
+  }
+
+  handleShowMore = (...params) => {
+    const { onShowMore } = this.props;
+    onShowMore(...params);
   }
 
   handleNavigate = (action, newDate) => {
